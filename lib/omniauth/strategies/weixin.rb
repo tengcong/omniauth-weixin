@@ -43,6 +43,9 @@ module OmniAuth
       end
 
       def build_access_token
+        puts '---' * 30
+        puts callback_url
+
         client.auth_code.get_token(
           request.params['code'],
           {:redirect_uri => callback_url, :parse => :json}.merge(token_params.to_hash(:symbolize_keys => true)),
