@@ -25,12 +25,14 @@ module OmniAuth
           :scope => options[:scope]
         }
 
-        %w[login_hash].each do |v|
-          if request.params[v]
-            params[v.to_sym] = request.params[v]
+        super.tap do |params|
+          %w[login_hash].each do |v|
+            if request.params[v]
+              params[v.to_sym] = request.params[v]
 
-            # to support omniauth-oauth2's auto csrf protection
-            session['omniauth.state'] = params[:state] if v == 'state'
+              # to support omniauth-oauth2's auto csrf protection
+              session['omniauth.state'] = params[:state] if v == 'state'
+            end
           end
         end
       end
