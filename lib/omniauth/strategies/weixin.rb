@@ -30,9 +30,9 @@ module OmniAuth
 
         Rails.logger.info "0" * 30
         Rails.logger.info request.params
-        Rails.logger.info request.params[:state]
+        Rails.logger.info request.params["state"]
 
-        if state = request.params[:state]
+        if state = request.params["state"]
           res[:state] = state
         end
         res
