@@ -30,7 +30,7 @@ module OmniAuth
         }
 
         if state = request.params[:state]
-          res[:state] => state
+          res[:state] = state
         end
         res
       end
