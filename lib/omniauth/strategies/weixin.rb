@@ -22,23 +22,17 @@ module OmniAuth
       def authorize_params
         options[:scope] = "snsapi_userinfo" if options[:scope].nil?
 
-        {
+        res = {
           :appid => options.client_id,
           :redirect_uri => callback_url,
           :response_type => 'code',
           :scope => options[:scope]
         }
 
-        super.tap do |params|
-          %w[state].each do |v|
-            if request.params[v]
-              params[v.to_sym] = request.params[v]
-
-              # to support omniauth-oauth2's auto csrf protection
-              session['omniauth.state'] = params[:state] if v == 'state'
-            end
-          end
+        if state = request.params[:state]
+          res[:state] => state
         end
+        res
       end
 
       def token_params
