@@ -15,7 +15,6 @@ module OmniAuth
         Rails.logger.info "*" * 30
         Rails.logger.info client.authorize_url(authorize_params) + "#wechat_redirect"
 
-
         redirect client.authorize_url(authorize_params) + "#wechat_redirect"
       end
 
@@ -28,6 +27,10 @@ module OmniAuth
           :response_type => 'code',
           :scope => options[:scope]
         }
+
+        Rails.logger.info "0" * 30
+        Rails.logger.info request.params
+        Rails.logger.info request.params[:state]
 
         if state = request.params[:state]
           res[:state] = state
