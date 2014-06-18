@@ -30,7 +30,7 @@ module OmniAuth
         }
 
         super.tap do |params|
-          %w[login_hash].each do |v|
+          %w[state].each do |v|
             if request.params[v]
               params[v.to_sym] = request.params[v]
 
