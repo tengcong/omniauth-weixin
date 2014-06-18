@@ -9,7 +9,7 @@ module OmniAuth
         :token_url => "https://api.weixin.qq.com/sns/oauth2/access_token"
       }
 
-      option :provider_ignores_state, true
+      # option :provider_ignores_state, true
 
       def request_phase
         redirect client.authorize_url(authorize_params) + "#wechat_redirect"
@@ -19,11 +19,20 @@ module OmniAuth
         options[:scope] = "snsapi_userinfo" if options[:scope].nil?
 
         {
-          :appid => options.client_id, 
-          :redirect_uri => callback_url, 
-          :response_type => 'code', 
+          :appid => options.client_id,
+          :redirect_uri => callback_url,
+          :response_type => 'code',
           :scope => options[:scope]
         }
+
+        %w[login_hash].each do |v|
+          if request.params[v]
+            params[v.to_sym] = request.params[v]
+
+            # to support omniauth-oauth2's auto csrf protection
+            session['omniauth.state'] = params[:state] if v == 'state'
+          end
+        end
       end
 
       def token_params
@@ -38,21 +47,21 @@ module OmniAuth
           {:mode => :query, :param_name => 'access_token'}
         )
       end
-      
+
       uid do
         @uid ||= begin
           access_token["openid"]
         end
       end
 
-      info do 
-        { 
+      info do
+        {
           :nickname => raw_info['nickname'],
           :name => raw_info['nickname'],
           :image => raw_info['headimgurl'],
         }
       end
-      
+
       extra do
         {
           :raw_info => raw_info
