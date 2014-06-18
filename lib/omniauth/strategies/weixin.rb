@@ -12,6 +12,10 @@ module OmniAuth
       # option :provider_ignores_state, true
 
       def request_phase
+        Rails.logger.info "*" * 30
+        Rails.logger.info client.authorize_url(authorize_params) + "#wechat_redirect"
+
+
         redirect client.authorize_url(authorize_params) + "#wechat_redirect"
       end
 
@@ -43,8 +47,11 @@ module OmniAuth
       end
 
       def build_access_token
-        puts '---' * 30
-        puts callback_url
+
+        Rails.logger.info '-' * 30
+        Rails.logger.info callback_url
+
+
 
         client.auth_code.get_token(
           request.params['code'],
