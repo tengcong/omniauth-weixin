@@ -34,7 +34,7 @@ module OmniAuth
 
         if state = request.params["state"]
           res[:state] = state
-          session['omniauth.state'] = params['state']
+          session['omniauth.state'] = state
         end
         res
       end
