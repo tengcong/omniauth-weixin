@@ -34,6 +34,7 @@ module OmniAuth
 
         if state = request.params["state"]
           res[:state] = state
+          session['omniauth.state'] = params['state']
         end
         res
       end
@@ -47,7 +48,6 @@ module OmniAuth
 
         Rails.logger.info '-' * 30
         Rails.logger.info callback_url
-
 
 
         client.auth_code.get_token(
