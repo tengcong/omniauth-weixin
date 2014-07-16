@@ -50,32 +50,41 @@ module OmniAuth
         Rails.logger.info callback_url
         Rails.logger.info client
 
-        client.auth_code.get_token(
-          request.params['code'],
-          {:redirect_uri => callback_url, :parse => :json}.merge(token_params.to_hash(:symbolize_keys => true)),
-          {:mode => :query, :param_name => 'access_token'}
-        )
+        # client.auth_code.get_token(
+        #   request.params['code'],
+        #   {:redirect_uri => callback_url, :parse => :json}.merge(token_params.to_hash(:symbolize_keys => true)),
+        #   {:mode => :query, :param_name => 'access_token'}
+        # )
+
+        verifier = request.params['code']
+        request_params = {:appid=>options.client_id,
+          :secret=>options.client_secret,
+          :code=>verifier,
+          :grant_type=>'authorization_code',
+          :parse=>:json
+        }
+        client.get_token(request_params,{:mode=>:query})
       end
 
-      # uid do
-      #   @uid ||= begin
-      #     access_token["openid"]
-      #   end
-      # end
+      uid do
+        @uid ||= begin
+          access_token["openid"]
+        end
+      end
 
-      # info do
-      #   {
-      #     :nickname => raw_info['nickname'],
-      #     :name => raw_info['nickname'],
-      #     :image => raw_info['headimgurl'],
-      #   }
-      # end
+      info do
+        {
+          :nickname => raw_info['nickname'],
+          :name => raw_info['nickname'],
+          :image => raw_info['headimgurl'],
+        }
+      end
 
-      # extra do
-      #   {
-      #     :raw_info => raw_info
-      #   }
-      # end
+      extra do
+        {
+          :raw_info => raw_info
+        }
+      end
 
       def raw_info
         @raw_info ||= begin
