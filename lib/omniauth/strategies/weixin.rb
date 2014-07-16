@@ -49,6 +49,7 @@ module OmniAuth
         Rails.logger.info '-' * 50
         Rails.logger.info callback_url
         Rails.logger.info client
+        Rails.logger.info request.params
 
         # client.auth_code.get_token(
         #   request.params['code'],
