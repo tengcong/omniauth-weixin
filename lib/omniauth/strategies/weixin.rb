@@ -57,25 +57,25 @@ module OmniAuth
         )
       end
 
-      uid do
-        @uid ||= begin
-          access_token["openid"]
-        end
-      end
+      # uid do
+      #   @uid ||= begin
+      #     access_token["openid"]
+      #   end
+      # end
 
-      info do
-        {
-          :nickname => raw_info['nickname'],
-          :name => raw_info['nickname'],
-          :image => raw_info['headimgurl'],
-        }
-      end
+      # info do
+      #   {
+      #     :nickname => raw_info['nickname'],
+      #     :name => raw_info['nickname'],
+      #     :image => raw_info['headimgurl'],
+      #   }
+      # end
 
-      extra do
-        {
-          :raw_info => raw_info
-        }
-      end
+      # extra do
+      #   {
+      #     :raw_info => raw_info
+      #   }
+      # end
 
       def raw_info
         @raw_info ||= begin
