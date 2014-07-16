@@ -46,9 +46,9 @@ module OmniAuth
 
       def build_access_token
 
-        Rails.logger.info '-' * 30
+        Rails.logger.info '-' * 50
         Rails.logger.info callback_url
-
+        Rails.logger.info client
 
         client.auth_code.get_token(
           request.params['code'],
